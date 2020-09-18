@@ -225,13 +225,16 @@ JSON is an acronym for JavaScript Object Notation. It is a way to represent obje
 
 ```
 JSON.stringify(kevin)
-#=> "{"name":"Kevin","age":13,"colors":["Black","White","Auburn"],"breed":"Domestic Shorthair"}"
+#=> `{"name":"Kevin","age":13,"colors":["Black","White","Auburn"],"breed":"Domestic Shorthair"}`
 ```
 
 You can turn JSON strings back into objects like this:
 
 ```
-let alice = JSON.parse(`{"name": "Alice"}`)
+let json = `{"name": "Alice"}`
+#=> undefined
+
+let alice = JSON.parse(json)
 #=> undefined
 
 alice.name
