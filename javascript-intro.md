@@ -179,9 +179,7 @@ let myFunc = function() {
 #=> undefined
 
 myFunc
-#=> ƒ (input) {
-  return 2;
-}
+#=> ƒ (input) { return 2; }
 ```
 
 Notice that calling the function `myFunc` just returns the definition of the
@@ -215,9 +213,7 @@ you want and would still work the same:
 addTwo = function(input) {
   return input + 2;
 }
-#=> ƒ (input) {
-  return input + 2;
-}
+#=> ƒ (input) { return input + 2; }
 
 addTwo(4)
 #=> 6
