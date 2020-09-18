@@ -49,7 +49,7 @@ In this example if we can change `age` from `21` to `22` because we declared it
 with the `let` keyword. Try to change name and see what happens.
 
 ```
-name = "Bob"
+name = "Alice"
 ```
 If you try this you won't get a value back but instead an error will be raised:
 
