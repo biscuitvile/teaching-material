@@ -8,10 +8,10 @@
     <script type="text/javascript">
 
       let submitButton = document.getElementById("submit");
+      let movies = JSON.parse(localStorage.getItem("movies") || "[]");
 
       let renderMovies = function() {
         let moviesList = document.getElementById("movies");
-        let movies = JSON.parse(localStorage.getItem("movies") || "[]");
 
         moviesList.textContent = "";
 
@@ -25,7 +25,6 @@
 
       let addMovie = function() {
         let input =  document.getElementById("name");
-        let movies = JSON.parse(localStorage.getItem("movies") || "[]");
         let movie = { name: input.value };
 
         movies.push(movie);
