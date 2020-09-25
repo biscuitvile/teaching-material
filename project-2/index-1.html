@@ -6,24 +6,23 @@
     <button id="submit">Add movie</button>
 
     <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() {
+        let submitButton = document.getElementById("submit");
 
-      let submitButton = document.getElementById("submit");
+        submitButton.addEventListener("click", function() {
+          let name = document.getElementById("name").value;
+          let movies = JSON.parse(localStorage.getItem("movies") || "[]");
 
-      submitButton.addEventListener("click", function() {
-        let name = document.getElementById("name").value;
-        let movies = JSON.parse(localStorage.getItem("movies") || "[]");
+          let movie = {
+            name: name
+          };
 
-        let movie = {
-          name: name
-        };
+          movies.push(movie);
+          localStorage.setItem("movies", JSON.stringify(movies));
 
-
-        movies.push(movie);
-        localStorage.setItem("movies", JSON.stringify(movies));
-
-        console.log(localStorage.getItem("movies"));
+          console.log(localStorage.getItem("movies"));
+        });
       });
-
     </script>
   </body>
 </html>
