@@ -7,16 +7,18 @@
   </body>
 
   <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
 
-    let setupButtonEvent = function(id, text) {
-      document.getElementById(id).addEventListener("click", function() {
-        document.getElementById("greeting").textContent = `${text}!`;
-      });
-    };
+      let setupButtonEvent = function(id, text) {
+        document.getElementById(id).addEventListener("click", function() {
+          document.getElementById("greeting").textContent = `${text}!`;
+        });
+      };
 
-    setupButtonEvent("english", "Hello");
-    setupButtonEvent("spanish", "Hola");
-    setupButtonEvent("french", "Bonjour");
+      setupButtonEvent("english", "Hello");
+      setupButtonEvent("spanish", "Hola");
+      setupButtonEvent("french", "Bonjour");
 
+    });
   </script>
 </html>

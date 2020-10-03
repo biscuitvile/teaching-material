@@ -7,22 +7,24 @@
   </body>
 
   <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
 
-    let updateText = function(text) {
-      document.getElementById("greeting").textContent = `${text}!`;
-    };
+      let updateText = function(text) {
+        document.getElementById("greeting").textContent = `${text}!`;
+      };
 
-    document.getElementById("english").addEventListener("click", function() {
-      updateText("Hello");
+      document.getElementById("english").addEventListener("click", function() {
+        updateText("Hello");
+      });
+
+      document.getElementById("spanish").addEventListener("click", function() {
+        updateText("Hola");
+      });
+
+      document.getElementById("french").addEventListener("click", function() {
+        updateText("Bonjour");
+      });
+
     });
-
-    document.getElementById("spanish").addEventListener("click", function() {
-      updateText("Hola");
-    });
-
-    document.getElementById("french").addEventListener("click", function() {
-      updateText("Bonjour");
-    });
-
   </script>
 </html>

@@ -7,18 +7,20 @@
   </body>
 
   <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
 
-    document.getElementById("english").addEventListener("click", function() {
-      document.getElementById("greeting").textContent = "Hello!";
+      document.getElementById("english").addEventListener("click", function() {
+        document.getElementById("greeting").textContent = "Hello!";
+      });
+
+      document.getElementById("spanish").addEventListener("click", function() {
+        document.getElementById("greeting").textContent = "Hola!";
+      });
+
+      document.getElementById("french").addEventListener("click", function() {
+        document.getElementById("greeting").textContent = "Bonjour!";
+      });
+
     });
-
-    document.getElementById("spanish").addEventListener("click", function() {
-      document.getElementById("greeting").textContent = "Hola!";
-    });
-
-    document.getElementById("french").addEventListener("click", function() {
-      document.getElementById("greeting").textContent = "Bonjour!";
-    });
-
   </script>
 </html>
