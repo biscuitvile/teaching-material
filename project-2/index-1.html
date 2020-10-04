@@ -14,6 +14,7 @@
           let movies = JSON.parse(localStorage.getItem("movies") || "[]");
 
           let movie = {
+            id: movies.length + 1,
             name: name
           };
 

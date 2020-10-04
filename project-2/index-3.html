@@ -39,7 +39,12 @@
 
           addMovie() {
             let input =  document.getElementById("name");
-            let movie = { name: input.value };
+
+            let movie = {
+              id: this.movies.length + 1,
+              name: input.value
+            };
+
             let newMovies = this.movies;
 
             newMovies.push(movie);
