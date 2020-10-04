@@ -27,7 +27,7 @@
               let listItem = event.target.closest("li");
 
               if (event.target && event.target.className == "edit") {
-                console.log(listItem.childNodes[0]);
+                console.log(listItem.textContent);
               }
             });
           }
@@ -39,17 +39,11 @@
 
             this.movies.forEach(function(movie) {
               let listItem = document.createElement("li");
-              let movieName = document.createTextNode(movie.name);
-              let editLink = document.createElement("a");
-              let editLabel = document.createTextNode("Edit");
 
-              editLink.setAttribute("href", "javascript:void(0);");
-              editLink.setAttribute("class", "edit");
-
-              editLink.appendChild(editLabel);
-
-              listItem.appendChild(movieName);
-              listItem.appendChild(editLink);
+              listItem.innerHTML = `
+                ${movie.name}
+                <a href="javascript:void(0)" class="edit">Edit</a>
+              `;
 
               moviesList.appendChild(listItem);
             });

@@ -45,24 +45,13 @@
 
             this.movies.forEach((movie) => {
               let listItem = document.createElement("li");
-              let movieName = document.createTextNode(movie.name);
-              let editLink = document.createElement("a");
-              let editLabel = document.createTextNode("Edit");
-              let deleteLink = document.createElement("a");
-              let deleteLabel = document.createTextNode("Delete");
 
               listItem.setAttribute("id", movie.id);
-              editLink.setAttribute("href", "javascript:void(0);");
-              editLink.setAttribute("class", "edit");
-              editLink.appendChild(editLabel);
-
-              deleteLink.setAttribute("href", "javascript:void(0);");
-              deleteLink.setAttribute("class", "delete");
-              deleteLink.appendChild(deleteLabel);
-
-              listItem.appendChild(movieName);
-              listItem.appendChild(editLink);
-              listItem.appendChild(deleteLink);
+              listItem.innerHTML = `
+                ${movie.name}
+                <a href="javascript:void(0)" class="edit">Edit</a>
+                <a href="javascript:void(0)" class="delete">Delete</a>
+              `;
 
               moviesList.appendChild(listItem);
             });
@@ -92,24 +81,14 @@
             this.renderMovies();
 
             let movie = this.movies.find(movie => movie.id == id);
-            let input = document.createElement("input");
-
-            input.setAttribute("type", "text");
-            input.setAttribute("id", "name");
-            input.value = movie.name;
 
             listItem = document.getElementById(id);
             listItem.textContent = "";
-            listItem.appendChild(input);
 
-            let saveButton = document.createElement("button");
-            let saveLabel = document.createTextNode("Save");
-
-            saveButton.setAttribute("href", "javascript:void(0);");
-            saveButton.setAttribute("id", "update");
-            saveButton.appendChild(saveLabel);
-
-            listItem.appendChild(saveButton);
+            listItem.innerHTML = `
+              <input type="text" id="name" value="${movie.name}" />
+              <button id="update">Update</button>
+            `;
           }
 
           updateMovie(event) {
