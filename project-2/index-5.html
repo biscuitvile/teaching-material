@@ -1,0 +1,129 @@
+<html>
+  <body>
+    <h1>Movies</h1>
+    <ul id="movies"></ul>
+    <input id="name" type="text" />
+    <button id="submit">Add movie</button>
+
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', () => {
+
+        class App {
+          initialize() {
+            this.bindEvents();
+            this.renderMovies();
+          }
+
+          get movies() {
+            return JSON.parse(localStorage.getItem("movies") || "[]");
+          }
+
+          bindEvents() {
+            document.getElementById("submit").addEventListener("click", () => {
+              this.addMovie();
+            });
+
+            document.addEventListener("click", (event) => {
+              if (event.target?.className == "edit") {
+                this.editMovie(event);
+              }
+
+              if (event.target?.getAttribute("id") == "update") {
+                this.updateMovie(event);
+              }
+            });
+          }
+
+          renderMovies() {
+            let moviesList = document.getElementById("movies");
+
+            moviesList.textContent = "";
+
+            this.movies.forEach((movie) => {
+              let listItem = document.createElement("li");
+              let movieName = document.createTextNode(movie.name);
+              let editLink = document.createElement("a");
+              let editLabel = document.createTextNode("Edit");
+
+              listItem.setAttribute("id", movie.id);
+              editLink.setAttribute("href", "javascript:void(0);");
+              editLink.setAttribute("class", "edit");
+              editLink.appendChild(editLabel);
+
+              listItem.appendChild(movieName);
+              listItem.appendChild(editLink);
+
+              moviesList.appendChild(listItem);
+            });
+          }
+
+          addMovie() {
+            let input =  document.getElementById("name");
+
+            let movie = {
+              id: this.movies.length + 1,
+              name: input.value
+            };
+
+            let newMovies = this.movies;
+
+            newMovies.push(movie);
+
+            localStorage.setItem("movies", JSON.stringify(newMovies));
+            this.renderMovies();
+            input.value = "";
+          }
+
+          editMovie(event) {
+            let listItem = event.target.closest("li");
+            let id = listItem.getAttribute("id");
+
+            this.renderMovies();
+
+            let movie = this.movies.find(movie => movie.id == id);
+            let input = document.createElement("input");
+
+            input.setAttribute("type", "text");
+            input.setAttribute("id", "name");
+            input.value = movie.name;
+
+            listItem = document.getElementById(id);
+            listItem.textContent = "";
+            listItem.appendChild(input);
+
+            let saveButton = document.createElement("button");
+            let saveLabel = document.createTextNode("Save");
+
+            saveButton.setAttribute("href", "javascript:void(0);");
+            saveButton.setAttribute("id", "update");
+            saveButton.appendChild(saveLabel);
+
+            listItem.appendChild(saveButton);
+          }
+
+          updateMovie(event) {
+            let listItem = event.target.closest("li");
+            let id = listItem.getAttribute("id");
+            let newName = document.getElementById("name").value;
+
+            let updatedMovie = {
+              id: parseInt(id),
+              name: newName
+            }
+
+            let updatedMovies = this.movies;
+            let index = updatedMovies.findIndex(movie => movie.id == id);
+
+            updatedMovies[index] = updatedMovie;
+            localStorage.setItem("movies", JSON.stringify(updatedMovies));
+
+            this.renderMovies();
+          }
+        }
+
+        new App().initialize();
+
+      });
+    </script>
+  </body>
+</html>
