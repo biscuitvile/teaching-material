@@ -1,0 +1,76 @@
+<html>
+  <body>
+    <h1>Movies</h1>
+    <ul id="movies"></ul>
+    <input id="name" type="text" />
+    <button id="submit">Add movie</button>
+
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() {
+
+        class App {
+          initialize() {
+            this.bindEvents();
+            this.renderMovies();
+          }
+
+          get movies() {
+            return JSON.parse(localStorage.getItem("movies") || "[]");
+          }
+
+          bindEvents() {
+            document.getElementById("submit").addEventListener("click", () => {
+              this.addMovie();
+            });
+
+            document.addEventListener("click", (event) => {
+              let listItem = event.target.closest("li");
+
+              if (event.target && event.target.className == "edit") {
+                console.log(listItem.childNodes[0]);
+              }
+            });
+          }
+
+          renderMovies() {
+            let moviesList = document.getElementById("movies");
+
+            moviesList.textContent = "";
+
+            this.movies.forEach(function(movie) {
+              let listItem = document.createElement("li");
+              let movieName = document.createTextNode(movie.name);
+              let editLink = document.createElement("a");
+              let editLabel = document.createTextNode("Edit");
+
+              editLink.setAttribute("href", "javascript:void(0);");
+              editLink.setAttribute("class", "edit");
+
+              editLink.appendChild(editLabel);
+
+              listItem.appendChild(movieName);
+              listItem.appendChild(editLink);
+
+              moviesList.appendChild(listItem);
+            });
+          }
+
+          addMovie() {
+            let input =  document.getElementById("name");
+            let movie = { name: input.value };
+            let newMovies = this.movies;
+
+            newMovies.push(movie);
+
+            localStorage.setItem("movies", JSON.stringify(newMovies));
+            this.renderMovies();
+            input.value = "";
+          }
+        }
+
+        new App().initialize();
+
+      });
+    </script>
+  </body>
+</html>
