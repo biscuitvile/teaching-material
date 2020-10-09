@@ -60,6 +60,8 @@
           addMovie() {
             let input =  document.getElementById("name");
 
+            if (input.value.trim() == "") return;
+
             let id = 1;
 
             if (this.movies.length > 0) {
@@ -101,6 +103,8 @@
             let listItem = event.target.closest("li");
             let id = listItem.getAttribute("id");
             let newName = document.getElementById("name").value;
+
+            if (newName.trim() == "") return;
 
             let updatedMovie = {
               id: parseInt(id),
