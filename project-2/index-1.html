@@ -1,29 +1,16 @@
 <html>
   <body>
     <h1>Movies</h1>
-
+    <ul id="movies"></ul>
     <input id="name" type="text" />
     <button id="submit">Add movie</button>
-
-    <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function() {
-        let submitButton = document.getElementById("submit");
-
-        submitButton.addEventListener("click", function() {
-          let name = document.getElementById("name").value;
-          let movies = JSON.parse(localStorage.getItem("movies") || "[]");
-
-          let movie = {
-            id: movies.length + 1,
-            name: name
-          };
-
-          movies.push(movie);
-          localStorage.setItem("movies", JSON.stringify(movies));
-
-          console.log(localStorage.getItem("movies"));
-        });
-      });
-    </script>
   </body>
+
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+      let moviesList = document.getElementById("movies");
+
+      moviesList.innerHTML = `<li>Home Alone</li>`;
+    });
+  </script>
 </html>

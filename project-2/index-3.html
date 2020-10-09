@@ -4,60 +4,18 @@
     <ul id="movies"></ul>
     <input id="name" type="text" />
     <button id="submit">Add movie</button>
-
-    <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function() {
-
-        class App {
-          initialize() {
-            this.bindEvents();
-            this.renderMovies();
-          }
-
-          get movies() {
-            return JSON.parse(localStorage.getItem("movies") || "[]");
-          }
-
-          bindEvents() {
-            document.getElementById("submit").addEventListener("click", () => {
-              this.addMovie();
-            });
-          }
-
-          renderMovies() {
-            let moviesList = document.getElementById("movies");
-
-            moviesList.textContent = "";
-
-            this.movies.forEach(function(movie) {
-              let listItem = document.createElement("li");
-
-              listItem.textContent = movie.name
-              moviesList.appendChild(listItem);
-            });
-          }
-
-          addMovie() {
-            let input =  document.getElementById("name");
-
-            let movie = {
-              id: this.movies.length + 1,
-              name: input.value
-            };
-
-            let newMovies = this.movies;
-
-            newMovies.push(movie);
-
-            localStorage.setItem("movies", JSON.stringify(newMovies));
-            this.renderMovies();
-            input.value = "";
-          }
-        }
-
-        new App().initialize();
-
-      });
-    </script>
   </body>
+
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById("submit").addEventListener("click", function() {
+        let moviesList = document.getElementById("movies");
+        let input = document.getElementById("name");
+        let newMovieName = input.value
+
+        moviesList.innerHTML = moviesList.innerHTML + `<li>${newMovieName}</li>`;
+        input.value = "";
+      });
+    });
+  </script>
 </html>

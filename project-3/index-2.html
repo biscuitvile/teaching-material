@@ -1,0 +1,47 @@
+<html>
+  <body>
+    <h1>Movies</h1>
+    <ul id="movies"></ul>
+    <input id="name" type="text" />
+    <button id="submit">Add movie</button>
+
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() {
+
+        let submitButton = document.getElementById("submit");
+        let movies = JSON.parse(localStorage.getItem("movies") || "[]");
+
+        let renderMovies = function() {
+          let moviesList = document.getElementById("movies");
+
+          moviesList.textContent = "";
+
+          movies.forEach(function(movie) {
+            let listItem = document.createElement("li");
+
+            listItem.textContent = movie.name
+            moviesList.appendChild(listItem);
+          });
+        }
+
+        let addMovie = function() {
+          let input =  document.getElementById("name");
+
+          let movie = {
+            id: movies.length + 1,
+            name: input.value
+          };
+
+          movies.push(movie);
+          localStorage.setItem("movies", JSON.stringify(movies));
+          renderMovies();
+          input.value = "";
+        };
+
+        submitButton.addEventListener("click", addMovie);
+        renderMovies();
+
+      });
+    </script>
+  </body>
+</html>
