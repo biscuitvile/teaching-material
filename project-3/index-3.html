@@ -6,7 +6,7 @@
     <button id="submit">Add movie</button>
 
     <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function() {
 
         class App {
           initialize() {
@@ -15,7 +15,7 @@
           }
 
           get movies() {
-            return JSON.parse(localStorage.getItem("movies") || "[]");
+            return JSON.parse(localStorage.getItem("movies")) || [];
           }
 
           bindEvents() {

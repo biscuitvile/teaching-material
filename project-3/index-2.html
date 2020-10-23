@@ -6,10 +6,10 @@
     <button id="submit">Add movie</button>
 
     <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function() {
 
         let submitButton = document.getElementById("submit");
-        let movies = JSON.parse(localStorage.getItem("movies") || "[]");
+        let movies = JSON.parse(localStorage.getItem("movies")) || [];
 
         let renderMovies = function() {
           let moviesList = document.getElementById("movies");
