@@ -77,7 +77,7 @@
 
             newMovies.push(movie);
 
-            localStorage.setItem("movies", JSON.stringify(newMovies));
+            this.saveMovies(newMovies);
             this.renderMovies();
             input.value = "";
           }
@@ -115,7 +115,7 @@
             let index = updatedMovies.findIndex(movie => movie.id == id);
 
             updatedMovies[index] = updatedMovie;
-            localStorage.setItem("movies", JSON.stringify(updatedMovies));
+            this.saveMovies(updatedMovies);
 
             this.renderMovies();
           }
@@ -124,8 +124,12 @@
             let id = event.target.closest("li").getAttribute("id");
             let updatedMovies = this.movies.filter(movie => movie.id != id);
 
-            localStorage.setItem("movies", JSON.stringify(updatedMovies));
+            this.saveMovies(updatedMovies);
             this.renderMovies();
+          }
+
+          saveMovies(movies) {
+            localStorage.setItem("movies", JSON.stringify(movies));
           }
         }
 
