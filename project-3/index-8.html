@@ -3,7 +3,8 @@
   <body>
     <h1>Movies</h1>
     <ul id="movies"></ul>
-    <input id="name" type="text" />
+    <input id="name" type="text" placeholder="Movie name" />
+    <input id="year" type="number" placeholder="Year" />
     <button id="submit">Add movie</button>
 
     <script type="text/javascript">
@@ -44,12 +45,24 @@
 
             moviesList.textContent = "";
 
-            this.movies.forEach((movie) => {
+            let movies = this.movies.sort((a, b) => {
+              if (a.year < b.year) {
+                return 1;
+              } else {
+                if (a.year == b.year) {
+                  return (a.name > b.name) ? 1 : -1;
+                } else {
+                  return -1;
+                }
+              }
+            });
+
+            movies.forEach((movie) => {
               let listItem = document.createElement("li");
 
               listItem.setAttribute("id", movie.id);
               listItem.innerHTML = `
-                ${movie.name}
+                ${movie.name} (${movie.year})
                 <a href="javascript:void(0)" class="edit">Edit</a>
                 <a href="javascript:void(0)" class="delete">Delete</a>
               `;
@@ -59,9 +72,10 @@
           }
 
           addMovie() {
-            let input =  document.getElementById("name");
+            let nameInput = document.getElementById("name");
+            let yearInput = document.getElementById("year");
 
-            if (input.value.trim() == "") return;
+            if (nameInput.value.trim() == "" || yearInput.value.trim() == "") return;
 
             let id = 1;
 
@@ -71,7 +85,8 @@
 
             let movie = {
               id: id,
-              name: input.value
+              name: nameInput.value,
+              year: yearInput.value
             };
 
             let newMovies = this.movies;
@@ -80,7 +95,8 @@
 
             this.saveMovies(newMovies);
             this.renderMovies();
-            input.value = "";
+            nameInput.value = "";
+            yearInput.value = "";
           }
 
           editMovie(event) {
@@ -95,7 +111,8 @@
             listItem.textContent = "";
 
             listItem.innerHTML = `
-              <input type="text" id="name" value="${movie.name}" />
+              <input type="text" id="edit-name" value="${movie.name}" />
+              <input type="number" id="edit-year" value="${movie.year}" />
               <button id="update">Update</button>
             `;
           }
@@ -103,13 +120,15 @@
           updateMovie(event) {
             let listItem = event.target.closest("li");
             let id = listItem.getAttribute("id");
-            let newName = document.getElementById("name").value;
+            let newName = document.getElementById("edit-name").value;
+            let newYear = document.getElementById("edit-year").value;
 
             if (newName.trim() == "") return;
 
             let updatedMovie = {
               id: parseInt(id),
-              name: newName
+              name: newName,
+              year: newYear
             }
 
             let updatedMovies = this.movies;
