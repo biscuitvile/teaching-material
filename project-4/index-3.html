@@ -1,0 +1,60 @@
+<html>
+  <body>
+    <h1>Tasks</h1>
+    <ul id="tasks"></ul>
+    <input type="text" id="new-task" placeholder="New task" />
+    <button id="submit">Add task</button>
+  </body>
+
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+
+      class App {
+        initialize() {
+          this.bindEvents();
+          this.renderTasks();
+        }
+
+        bindEvents() {
+          document.getElementById("submit").addEventListener("click", () => {
+            this.addTask();
+          });
+        }
+
+        get tasks() {
+          return JSON.parse(localStorage.getItem("tasks")) || [];
+        }
+
+        renderTasks() {
+          let tasksList = document.getElementById("tasks");
+
+          tasksList.textContent = "";
+
+          this.tasks.forEach((task) => {
+            let listItem = document.createElement("li");
+
+            listItem.textContent = task.name;
+
+            tasksList.appendChild(listItem);
+          });
+        }
+
+        addTask() {
+          let input = document.getElementById("new-task");
+          let newTasks = this.tasks;
+
+          let task = {
+            name: input.value
+          }
+
+          newTasks.push(task);
+
+          localStorage.setItem("tasks", JSON.stringify(newTasks));
+        }
+      }
+
+      new App().initialize();
+
+    });
+  </script>
+</html>
