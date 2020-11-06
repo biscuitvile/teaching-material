@@ -1,0 +1,142 @@
+
+<html>
+  <body>
+    <h1>Movies</h1>
+    <ul id="movies"></ul>
+    <input id="name" type="text" />
+    <button id="submit">Add movie</button>
+
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", () => {
+
+        class App {
+          initialize() {
+            this.bindEvents();
+            this.renderMovies();
+          }
+
+          get movies() {
+            return JSON.parse(localStorage.getItem("movies")) || [];
+          }
+
+          bindEvents() {
+            document.getElementById("submit").addEventListener("click", () => {
+              this.addMovie();
+            });
+
+            document.addEventListener("click", (event) => {
+              if (event.target?.className == "edit") {
+                this.editMovie(event);
+              }
+
+              if (event.target?.getAttribute("id") == "update") {
+                this.updateMovie(event);
+              }
+
+              if (event.target?.className == "delete") {
+                this.deleteMovie(event);
+              }
+            });
+          }
+
+          renderMovies() {
+            let moviesList = document.getElementById("movies");
+
+            moviesList.textContent = "";
+
+            this.movies.forEach((movie) => {
+              let listItem = document.createElement("li");
+
+              listItem.setAttribute("id", movie.id);
+              listItem.innerHTML = `
+                ${movie.name}
+                <a href="javascript:void(0)" class="edit">Edit</a>
+                <a href="javascript:void(0)" class="delete">Delete</a>
+              `;
+
+              moviesList.appendChild(listItem);
+            });
+          }
+
+          addMovie() {
+            let input =  document.getElementById("name");
+
+            if (input.value.trim() == "") return;
+
+            let id = 1;
+
+            if (this.movies.length > 0) {
+              id = this.movies[this.movies.length - 1].id + 1;
+            }
+
+            let movie = {
+              id: id,
+              name: input.value
+            };
+
+            let newMovies = this.movies;
+
+            newMovies.push(movie);
+
+            this.saveMovies(newMovies);
+            this.renderMovies();
+            input.value = "";
+          }
+
+          editMovie(event) {
+            let listItem = event.target.closest("li");
+            let id = listItem.getAttribute("id");
+
+            this.renderMovies();
+
+            let movie = this.movies.find(movie => movie.id == id);
+
+            listItem = document.getElementById(id);
+            listItem.textContent = "";
+
+            listItem.innerHTML = `
+              <input type="text" id="name" value="${movie.name}" />
+              <button id="update">Update</button>
+            `;
+          }
+
+          updateMovie(event) {
+            let listItem = event.target.closest("li");
+            let id = listItem.getAttribute("id");
+            let newName = document.getElementById("name").value;
+
+            if (newName.trim() == "") return;
+
+            let updatedMovie = {
+              id: parseInt(id),
+              name: newName
+            }
+
+            let updatedMovies = this.movies;
+            let index = updatedMovies.findIndex(movie => movie.id == id);
+
+            updatedMovies[index] = updatedMovie;
+            this.saveMovies(updatedMovies);
+
+            this.renderMovies();
+          }
+
+          deleteMovie(event) {
+            let id = event.target.closest("li").getAttribute("id");
+            let updatedMovies = this.movies.filter(movie => movie.id != id);
+
+            this.saveMovies(updatedMovies);
+            this.renderMovies();
+          }
+
+          saveMovies(movies) {
+            localStorage.setItem("movies", JSON.stringify(movies));
+          }
+        }
+
+        new App().initialize();
+
+      });
+    </script>
+  </body>
+</html>
