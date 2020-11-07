@@ -19,6 +19,12 @@
           document.getElementById("submit").addEventListener("click", () => {
             this.addTask();
           });
+
+          document.addEventListener("click", (event) => {
+            if (event.target?.className == "toggle") {
+              this.toggleTask(event);
+            }
+          });
         }
 
         get tasks() {
@@ -27,13 +33,31 @@
 
         renderTasks() {
           let tasksList = document.getElementById("tasks");
+          let completed = this.tasks.filter((task) => task.completed);
+          let incomplete = this.tasks.filter((task) => !task.completed);
 
           tasksList.textContent = "";
 
-          this.tasks.forEach((task) => {
+          incomplete.forEach((task) => {
             let listItem = document.createElement("li");
 
-            listItem.textContent = task.name;
+            listItem.setAttribute("id", task.id);
+            listItem.innerHTML = `
+              <input type="checkbox" class="toggle" />
+              ${task.name}
+            `;
+
+            tasksList.appendChild(listItem);
+          });
+
+          completed.forEach((task) => {
+            let listItem = document.createElement("li");
+
+            listItem.setAttribute("id", task.id);
+            listItem.innerHTML = `
+              <input type="checkbox" class="toggle" checked />
+              <s>${task.name}</s>
+            `;
 
             tasksList.appendChild(listItem);
           });
@@ -42,14 +66,40 @@
         addTask() {
           let input = document.getElementById("new-task");
           let newTasks = this.tasks;
+          let id = 1;
+
+          if (newTasks.length > 0) {
+            id = newTasks[newTasks.length - 1].id + 1;
+          }
 
           let task = {
-            name: input.value
+            id: id,
+            name: input.value,
+            completed: false
           }
 
           newTasks.push(task);
 
-          localStorage.setItem("tasks", JSON.stringify(newTasks));
+          this.saveTasks(newTasks);
+          this.renderTasks();
+          input.value = "";
+        }
+
+        toggleTask(event) {
+          let id = event.target.closest("li").getAttribute("id");
+          let updatedTasks = this.tasks;
+          let task = updatedTasks.find((task) => task.id == id);
+          let index = updatedTasks.findIndex(task => task.id == id);
+
+          task.completed = !task.completed;
+          updatedTasks[index] = task;
+
+          this.saveTasks(updatedTasks);
+          this.renderTasks();
+        }
+
+        saveTasks(tasks) {
+          localStorage.setItem("tasks", JSON.stringify(tasks));
         }
       }
 
